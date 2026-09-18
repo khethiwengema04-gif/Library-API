@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { getAllAuthors } from '../controllers/author';
 import { body, param, validationResult } from "express-validator";
-// import {getAllUsers, getUserById, createUser} from "../controllers/users"
+import {getAuthorById, createAuthor} from "../controllers/author"
 
 const router = Router();
 
@@ -18,6 +18,20 @@ router.get("/:id",[param("id").isInt().withMessage("ID must be an integer")], (r
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array() });
     }
-     getUserById(req,res) 
+     getAuthorById(req,res) 
 }
 );
+router.post("/", [
+    body("name").notEmpty().withMessage("Name is required"),
+    body("email").isEmail().withMessage("Must be valid email address"),
+], (req: Request, res: Response) =>{
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array() });
+    }
+    createAuthor(req, res)
+    
+}
+);
+
+export default router
