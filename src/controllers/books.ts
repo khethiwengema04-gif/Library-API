@@ -1,0 +1,43 @@
+import { Request, Response } from "express";
+import { title } from "node:process";
+
+let books = [
+
+    { id: 1, title: "Blind child", authorId: "2", year: "2026" }
+
+]
+
+export const getAllBooks = (req: Request, res: Response) => {
+    res.status(200).json(books)
+}
+export const getBooksById = (req: Request, res: Response) => {
+    const { id } = req.params;
+    const book = books.find((book) => book.id === parseInt(String(id)));
+    if (!book) {
+        return res.status(404).json({ message: "Book not found" });
+    }
+    res.status(200).json(book);
+}
+
+export const createBooks = (req: Request, res: Response) => {
+    const { title, authorId, year } = req.body;
+    const newBooks = { id: books.length + 1, title, authorId, year };
+    books.push(newBooks);
+    res.status(201).json(newBooks);
+}
+
+export const deleteBook = (req: Request, res: Response) => {
+    const { id } = req.params;
+    const bookId = parseInt(String(id));
+
+    // Checking if the author exists first
+    const bookExists = books.some((book) => book.id === bookId);
+
+    if (!bookExists) {
+        return res.status(404).json({ message: "Book not found" });
+    }
+
+    // Filter out the author with the matching ID
+    books = books.filter((book) => book.id !== bookId);
+    res.status(200).json({ message: "Books deleted successfully" });
+};

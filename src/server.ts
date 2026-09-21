@@ -10,7 +10,8 @@ app.use(bodyParser.json());
 app.use(express.json());
 
 app.use("/v1/Authors", router);
+app.use("/v1/Books", router);
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost: ${PORT} `);
+    console.log(`Server is running on http://localhost:${PORT} `);
 })
