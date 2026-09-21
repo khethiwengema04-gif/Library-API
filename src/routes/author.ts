@@ -35,7 +35,6 @@ router.post("/", [
 );
 
 
-
 //  Added the DELETE route 
 router.delete("/:id", [
     param("id").isInt().withMessage("ID must be an integer")
@@ -46,7 +45,6 @@ router.delete("/:id", [
         return res.status(400).json({ errors: errors.array() });
     }
 
-    // Explicitly call and return your delete controller
     return deleteAuthor(req, res);
 });
 

@@ -35,18 +35,18 @@ export const deleteAuthor = (req: Request, res: Response) => {
         return res.status(404).json({ message: "Author not found" });
     }
 
-    // Filter out the author with the matching ID
+    // Filtering out the author with the matching ID
     authors = authors.filter((author) => author.id !== authorId);
     res.status(200).json({ message: "Author deleted successfully" });
 };
 
-// export const updateAuthor = (req: Request, res: Response) => {
-//     const id = parseInt(req.params.id);
-//     const { name, email } = req.body;
+export const updateAuthor = (req: Request, res: Response) => {
+    const id = parseInt(String(req.params.id));
+    const { name, email } = req.body;
 
-//     const authorIndex = authors.findIndex(a => a.id === id);
-//     if (authorIndex === -1) return res.status(404).json({ message: "Author not found" });
+    const authorIndex = authors.findIndex(a => a.id === id);
+    if (authorIndex === -1) return res.status(404).json({ message: "Author not found" });
 
-//     authors[authorIndex] = { id, name, email };
-//     res.status(200).json(authors[authorIndex]);
-// };
+    authors[authorIndex] = { id, name, email };
+    res.status(200).json(authors[authorIndex]);
+};
