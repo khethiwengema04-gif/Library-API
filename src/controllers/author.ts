@@ -17,6 +17,7 @@ export const getAuthorById = (req: Request, res: Response) => {
     res.status(200).json(author);
 }
 
+
 export const createAuthor = (req: Request, res: Response) => {
     const { name, email } = req.body;
     const newAuthor = { id: authors.length + 1, name, email };
@@ -28,7 +29,6 @@ export const deleteAuthor = (req: Request, res: Response) => {
     const { id } = req.params;
     const authorId = parseInt(String(id));
 
-    // Check if the author exists first
     const authorExists = authors.some((author) => author.id === authorId);
 
     if (!authorExists) {
@@ -37,7 +37,16 @@ export const deleteAuthor = (req: Request, res: Response) => {
 
     // Filter out the author with the matching ID
     authors = authors.filter((author) => author.id !== authorId);
-
-    // Return a 200 OK or 204 No Content status
     res.status(200).json({ message: "Author deleted successfully" });
 };
+
+// export const updateAuthor = (req: Request, res: Response) => {
+//     const id = parseInt(req.params.id);
+//     const { name, email } = req.body;
+
+//     const authorIndex = authors.findIndex(a => a.id === id);
+//     if (authorIndex === -1) return res.status(404).json({ message: "Author not found" });
+
+//     authors[authorIndex] = { id, name, email };
+//     res.status(200).json(authors[authorIndex]);
+// };
