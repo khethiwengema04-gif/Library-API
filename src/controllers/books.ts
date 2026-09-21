@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { title } from "node:process";
 
-let books = [
+export let books = [
 
-    { id: 1, title: "Blind child", authorId: "2", year: "2026" }
+    { id: 1, title: "Blind child", authorId: 2, year: "2026" }
 
 ]
 

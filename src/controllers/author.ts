@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { books } from "./books";
 
 let authors = [
     { id: 1, name: "Khethiwe Ngema", email: "khethy@gmail.com" },
@@ -16,6 +17,27 @@ export const getAuthorById = (req: Request, res: Response) => {
     }
     res.status(200).json(author);
 }
+
+export const getBooksByAuthor = (req: Request, res: Response) => {
+    const authorId = parseInt(String(req.params.id));
+
+    const author = authors.find(author => author.id === authorId);
+
+    if (!author) {
+        return res.status(404).json({
+            message: "Author not found"
+        });
+    }
+
+    const authorBooks = books.filter(
+        (book: { authorId: number }) => book.authorId === authorId
+    );
+
+    res.status(200).json({
+        author,
+        books: authorBooks
+    });
+};
 
 
 export const createAuthor = (req: Request, res: Response) => {
@@ -50,3 +72,4 @@ export const updateAuthor = (req: Request, res: Response) => {
     authors[authorIndex] = { id, name, email };
     res.status(200).json(authors[authorIndex]);
 };
+

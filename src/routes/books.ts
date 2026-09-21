@@ -7,7 +7,7 @@ const router = Router();
 
 let users = [
 
-    { id: 1, title: "Blind child", authorId: "2", year: "2026" }
+    { id: 1, title: "Blind child", authorId: 2, year: "2026" }
 ]
 
 router.get("/", getAllBooks);
@@ -23,7 +23,7 @@ router.get("/:id", [param("id").isInt().withMessage("ID must be an integer")], (
 );
 router.post("/", [
     body("title").notEmpty().withMessage("title is required"),
-    body("authorId").isEmail().withMessage("Must be valid authorId"),
+    body("authorId").isInt().withMessage("Author ID must be an integer"),
     body("year").notEmpty().withMessage("year is required"),
 ], (req: Request, res: Response) => {
     const errors = validationResult(req)
