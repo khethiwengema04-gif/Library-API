@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { getAllAuthors, getBooksByAuthor } from '../controllers/author';
 import { body, param, validationResult } from "express-validator";
-import { getAuthorById, createAuthor, deleteAuthor } from "../controllers/author"
+import { getAuthorById, createAuthor, deleteAuthor, updateAuthor } from "../controllers/author"
 
 const router = Router();
 
@@ -9,7 +9,7 @@ let users = [
     { id: 1, name: "Khethiwe Ngema", email: "khethy@gmail.com" },
     { id: 2, name: "Amanda Khuzwayo", email: "amanda@gmail.com" }
 ]
-
+//getting the books for author
 router.get("/:id/books", [
     param("id")
         .isInt()
@@ -64,6 +64,36 @@ router.delete("/:id", [
 
     return deleteAuthor(req, res);
 });
+
+// UPDATE AUTHOR
+router.put(
+    "/:id",
+    [
+        param("id")
+            .isInt()
+            .withMessage("ID must be an integer"),
+
+        body("name")
+            .notEmpty()
+            .withMessage("Name is required"),
+
+        body("email")
+            .isEmail()
+            .withMessage("Must be a valid email address")
+    ],
+    (req: Request, res: Response) => {
+
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                errors: errors.array()
+            });
+        }
+
+        updateAuthor(req, res);
+    }
+);
 
 
 export default router

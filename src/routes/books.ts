@@ -5,7 +5,7 @@ import { getAllBooks, getBooksById } from '../controllers/books';
 
 const router = Router();
 
-let users = [
+let books = [
 
     { id: 1, title: "Blind child", authorId: 2, year: "2026" }
 ]
@@ -49,6 +49,27 @@ router.delete("/:id", [
 
     return deleteBook(req, res);
 });
+
+//update for the books
+export const updateBook = (req: Request, res: Response) => {
+    const id = parseInt(String(req.params.id));
+
+    const { title, authorId, year } = req.body;
+
+    const bookIndex = books.findIndex(
+        book => book.id === id
+    );
+
+    if (bookIndex === -1) {
+        return res.status(404).json({
+            message: "Book not found"
+        });
+    }
+
+    books[bookIndex] = { id, title, authorId: Number(authorId), year };
+
+    res.status(200).json(books[bookIndex]);
+};
 
 
 export default router
